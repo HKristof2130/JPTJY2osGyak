@@ -13,7 +13,7 @@ main()
 	msgflg = 00666 | IPC_CREAT;
 	msgid = msgget( key, msgflg);
 	
-	rtn = msgctl(msgid, IPC_RMID, NULL);	/* torlom az uzenetsort */
+	rtn = msgctl(msgid, IPC_RMID, NULL);	
 	printf ("\n Vissztert: %d", rtn);
 
 	exit (0);
