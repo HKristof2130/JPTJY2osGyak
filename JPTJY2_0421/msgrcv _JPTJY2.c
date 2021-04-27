@@ -8,19 +8,18 @@
 struct msgbuf1 {
 	long mtype;
 	char mtext[512];
-} rcvbuf, *msgp;		/* message buffer es pointere */
+} rcvbuf, *msgp;		
 
-struct msqid_ds ds, *buf;	/* uzenetsorhoz asszocialt struktura
-					 es pointere*/
+struct msqid_ds ds, *buf;	
 
 main()
 {
-	int msgid;		/* uzenetsor azonosito */
-	key_t key;		/* kulcs az uzenetsorhoz */
-	int mtype, msgflg;	/* tipus, flag */
-	int rtn, msgsz;		/* return es meret */
+	int msgid;		
+	key_t key;		
+	int mtype, msgflg;	
+	int rtn, msgsz;		
 	
-	key = MSGKEY;		/* beallitom a kulcsot */
+	key = MSGKEY;		
 	msgflg = 00666 | IPC_CREAT | MSG_NOERROR;
 
 	msgid = msgget( key, msgflg);    
@@ -30,19 +29,18 @@ main()
         }
 	printf("\n Az msgid: %d",msgid);
 
-	msgp = &rcvbuf;		/* uzenetfogado buffer cime */
-	buf = &ds;		/* uzenetsor jellemzo adataihoz */
-	msgsz = 20;		/* max hossz */
-	mtype = 0;		/* minden tipust varok */
-	rtn = msgctl(msgid,IPC_STAT,buf); /* uzenetsor adatokat lekerdezem */
+	msgp = &rcvbuf;		
+	buf = &ds;		
+	msgsz = 20;		
+	mtype = 0;		/
+	rtn = msgctl(msgid,IPC_STAT,buf); 
 	printf("\n Az uzenetek szama: %d",buf->msg_qnum);
 	
-	while (buf->msg_qnum) {		/* van-e uzenet?*/
-		/* veszem a kovetkezo uzenetet: */
+	while (buf->msg_qnum) {		
+		
 	rtn = msgrcv(msgid,(struct msgbuf *)msgp, msgsz, mtype, msgflg);
 	printf("\n Az rtn: %d,  a vett uzenet:%s\n",rtn, msgp->mtext);
-	rtn = msgctl(msgid,IPC_STAT,buf); /* uzenetsor adatokat lekerdezem,
-					benne azt is, hany uzenet van meg */
-}
+	rtn = msgctl(msgid,IPC_STAT,buf); 
+
 	exit (0);
 }
